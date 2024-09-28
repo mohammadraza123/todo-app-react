@@ -3,12 +3,20 @@ import { IoMdAddCircle, IoIosCheckmarkCircle } from "react-icons/io";
 import { AiFillDelete } from "react-icons/ai";
 import { MdEdit, MdDelete } from "react-icons/md";
 
-
-
 export default function Todo() {
-
+    
+// get Data from localstorage 
+const getData = () => {
+    const getItem = localStorage.getItem("data");
+    if (getItem) {
+      return JSON.parse(getItem);
+    } else {
+      return [];
+    }
+  };
+    
     const [inputValue, setInputValue] = useState('');
-    const [todos, setTodos] = useState([]);
+    const [todos, setTodos] = useState(getData());
     const [editTodo, setEditTodo] = useState(false);
 
     function addTodo() {
@@ -45,6 +53,11 @@ export default function Todo() {
         deleteTodo.splice(index, 1);
         setTodos(deleteTodo)
     }
+
+// set Data from localstorage
+  useEffect(() => {
+    localStorage.setItem("data", JSON.stringify(todos));
+  }, [todos]);
 
 
     return (
